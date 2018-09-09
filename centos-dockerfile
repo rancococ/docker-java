@@ -57,6 +57,9 @@ ENV PATH .:${PATH}:${MYJRE_HOME}/bin
 # set work home
 WORKDIR /data
 
+# expose port 22
+EXPOSE 22
+
 # stop signal
 STOPSIGNAL SIGTERM
 
