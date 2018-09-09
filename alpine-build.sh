@@ -22,9 +22,9 @@ white=$(tput setaf 7)
 header() { printf "\n${underline}${bold}${blue}> %s${reset}\n" "$@"; }
 header2() { printf "\n${underline}${bold}${blue}>> %s${reset}\n" "$@"; }
 info() { printf "${white}➜ %s${reset}\n" "$@"; }
-success() { printf "${green}✔ %s${reset}\n" "$@"; }
-error() { printf "${red}✖ %s${reset}\n" "$@"; }
 warn() { printf "${yellow}➜ %s${reset}\n" "$@"; }
+error() { printf "${red}✖ %s${reset}\n" "$@"; }
+success() { printf "${green}✔ %s${reset}\n" "$@"; }
 usage() { printf "\n${underline}${bold}${blue}Usage:${reset} ${blue}%s${reset}\n" "$@"; }
 
 trap "error '******* ERROR: Something went wrong.*******'; exit 1" sigterm
@@ -46,11 +46,27 @@ done
 base_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 cd ${base_dir}
 
+#
+# envirionment
+#
 DOCKER_REPOSTORY=myharbor.com
 DOCKER_PROJECT=base
 DOCKER_IMAGE=java
 DOCKER_FILE=alpine-dockerfile
 
+# registry
+registry_host="registry.cn-hangzhou.aliyuncs.com"
+registry_username="rancococ@qq.com"
+registry_password=""
+
+# images
+images=(
+${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:alpine-java-latest,registry.cn-hangzhou.aliyuncs.com/rancococ/java:alpine-java-1.8
+${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:alpine-java-latest,registry.cn-hangzhou.aliyuncs.com/rancococ/java:alpine-java-1.8.181
+)
+
+# build image
+fun_build_image() {
 docker build --rm \
              --no-cache \
              --add-host github.com:192.30.253.112 \
@@ -71,6 +87,63 @@ docker build --rm \
              --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.230.163 \
              --build-arg GOSU_URL=https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 \
              --build-arg MYJRE_URL=http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/server-jre-8u181-linux-x64.tar.gz \
-             -t ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:alpine-java-1.8 \
-             -t ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:alpine-java-1.8.181 \
+             -t ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:alpine-java-latest \
              -f ${DOCKER_FILE} .
+}
+
+# login registry
+fun_login_registry() {
+    header "login registry : ${registry_host}"
+    info "Please enter your password for [${registry_username}]:"
+    read -s registry_password
+    if [ "x${registry_password}" == "x" ]; then
+        error "Please enter you password."
+        exit 0
+    fi
+    echo "${registry_password}" | docker login --username="${registry_username}" --password-stdin "${registry_host}"
+    return 0
+}
+
+# push image
+fun_push_image() {
+    header "push images to registry : ${registry_host}"
+    for data in ${images[@]}; do
+        source=${data%%,*}
+        target=${data#*,}
+        info "push image [${target}] start...";
+        docker tag ${source} ${target}
+        docker push ${target}
+        success "push image [${target}] success."
+    done
+    return 0
+}
+
+# clean images
+fun_clean_images() {
+    header "clean images:"
+    none_images=$(docker images -f "dangling=true" -q)
+    if [ "x${none_images}" != "x" ]; then
+        docker rmi -f $(docker images -f "dangling=true" -q);
+    fi
+    success "clean image success."
+    return 0
+}
+
+#
+# main
+#
+# login registry
+fun_login_registry
+
+# build image
+fun_build_image
+
+# push image
+fun_push_image
+
+# clean images
+fun_clean_images
+
+success "build image complete."
+
+exit $?
