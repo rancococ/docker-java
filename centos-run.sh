@@ -50,6 +50,9 @@ DOCKER_REPOSTORY=myharbor.com
 DOCKER_PROJECT=base
 DOCKER_IMAGE=java
 
-docker run -it --rm --name centos-java-1.8.181 ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8.181 ""
+# run default command
+docker run -it --rm --name centos-java-1.8.181 ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8.181
+# run sshd
 docker run -it --rm --name centos-java-1.8.181 -p 10022:22 ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8.181 ""
+# run bash
 docker run -it --rm --name centos-java-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8.181 "bash"
