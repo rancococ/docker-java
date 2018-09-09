@@ -46,7 +46,6 @@ done
 base_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 cd ${base_dir}
 
-
 DOCKER_REPOSTORY=myharbor.com
 DOCKER_PROJECT=base
 DOCKER_IMAGE=java
