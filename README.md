@@ -9,3 +9,6 @@ docker-java
 4. apphome: /data/myapp
 5. jrehome: /data/myjre
 6. user: root/admin; myapp/123456
+7. usage:
+docker run -it --rm --name alpine-java-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 myharbor.com/base/java:alpine-java-1.8.181 "bash"
+docker run -it --rm --name centos-java-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 myharbor.com/base/java:centos-java-1.8.181 "bash"
