@@ -69,6 +69,8 @@ docker build --rm \
              --add-host github-cloud.s3.amazonaws.com:52.216.166.91 \
              --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.100.19 \
              --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.230.163 \
+             --build-arg GOSU_URL=https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 \
              --build-arg MYJRE_URL=http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/server-jre-8u181-linux-x64.tar.gz \
+             -t ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8 \
              -t ${DOCKER_REPOSTORY}/${DOCKER_PROJECT}/${DOCKER_IMAGE}:centos-java-1.8.181 \
              -f ${DOCKER_FILE} .
