@@ -10,5 +10,5 @@ docker-java
 5. jrehome: /data/myjre
 6. user: root/admin; myapp/123456
 7. usage:
-docker run -it --rm --name java-alpine-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 myharbor.com/base/java:alpine-1.8.181 "bash"
-docker run -it --rm --name java-centos-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 myharbor.com/base/java:centos-1.8.181 "bash"
+docker run -it --rm --name java-alpine-1.8.181 rancococ/java:alpine-1.8.181 "bash"
+docker run -it --rm --name java-centos-1.8.181 rancococ/java:centos-1.8.181 "bash"
