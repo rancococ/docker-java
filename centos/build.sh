@@ -80,7 +80,7 @@ docker build --rm \
              --build-arg GOSU_URL=https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 \
              --build-arg MYJRE_URL=http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/server-jre-8u181-linux-x64.tar.gz \
              -t myharbor.com/base/java:centos-1.8.181 \
-             -f centos-dockerfile .
+             -f Dockerfile .
 }
 
 # login registry
