@@ -15,8 +15,8 @@ ARG MYJRE_URL=http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe8
 COPY docker-entrypoint.sh /
 
 # install repositories and packages : curl bash openssh wget net-tools gettext zip unzip tzdata ncurses
-RUN echo -e "https://mirrors.aliyun.com/alpine/${ALPINE_VER}/main\nhttps://mirrors.aliyun.com/alpine/${ALPINE_VER}/community" > /etc/apk/repositories && \
-    apk --update add curl bash openssh wget net-tools gettext zip unzip tzdata ncurses && \
+RUN echo -e "https://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/main\nhttps://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/community" > /etc/apk/repositories && \
+    apk update && apk add curl bash openssh wget net-tools gettext zip unzip tzdata ncurses && \
     \rm -rf /var/cache/apk/* && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
     ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key  -N '' && \
