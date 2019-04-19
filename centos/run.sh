@@ -47,8 +47,8 @@ base_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 cd ${base_dir}
 
 # run default command
-docker run -it --rm --name java-centos-1.8.181 java:centos-1.8.181
+docker run -it --rm --name java-1.8.181-centos java:1.8.181-centos
 # run sshd
-docker run -it --rm --name java-centos-1.8.181 -p 10022:22 java:centos-1.8.181 ""
+docker run -it --rm --name java-1.8.181-centos -p 10022:22 java:1.8.181-centos ""
 # run bash
-docker run -it --rm --name java-centos-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 java:centos-1.8.181 "bash"
+docker run -it --rm --name java-1.8.181-centos -p 18080:8080 -p 10001:10001 -p 10002:10002 java:1.8.181-centos "bash"

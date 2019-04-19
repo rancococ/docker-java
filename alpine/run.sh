@@ -47,8 +47,8 @@ base_dir="$( cd -P "$( dirname "$source" )" && pwd )"
 cd ${base_dir}
 
 # run default command
-docker run -it --rm --name java-alpine-1.8.181 java:alpine-1.8.181
+docker run -it --rm --name java-1.8.181-alpine java:1.8.181-alpine
 # run sshd
-docker run -it --rm --name java-alpine-1.8.181 -p 10022:22 java:alpine-1.8.181 ""
+docker run -it --rm --name java-1.8.181-alpine -p 10022:22 java:1.8.181-alpine ""
 # run bash
-docker run -it --rm --name java-alpine-1.8.181 -p 18080:8080 -p 10001:10001 -p 10002:10002 java:alpine-1.8.181 "bash"
+docker run -it --rm --name java-1.8.181-alpine -p 18080:8080 -p 10001:10001 -p 10002:10002 java:1.8.181-alpine "bash"
