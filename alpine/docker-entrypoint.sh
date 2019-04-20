@@ -16,8 +16,8 @@ if [ "$(id -u)" = "0" ]; then
     fi
     # has parameter
     if [ -n "$1" ]; then
-        # exec by myapp
-        exec gosu myapp "$@"
+        # exec by app
+        exec gosu app "$@"
     fi
 fi
 

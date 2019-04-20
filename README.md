@@ -8,7 +8,7 @@ docker-java
 3. support sshd and jre 1.8
 4. apphome: /data/app
 5. jrehome: /data/jre
-6. user: root/admin; myapp/123456
+6. user: root/admin; app/123456
 7. usage:
 docker run -it --rm --name java-1.8.192-alpine rancococ/java:1.8.192-alpine "bash"
 docker run -it --rm --name java-1.8.192-centos rancococ/java:1.8.192-centos "bash"
