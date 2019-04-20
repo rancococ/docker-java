@@ -10,7 +10,7 @@ ARG APP_HOME=/data/app
 ARG JRE_HOME=/data/jre
 ARG GOSU_URL=https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64
 ARG JRE_URL=https://github.com/rancococ/serverjre/releases/download/server-jre-8/server-jre-8u192-linux-x64.tar.gz
-ARG UUID_NAME="$(cat /proc/sys/kernel/random/uuid)"
+ARG UUID_NAME=$(cat /proc/sys/kernel/random/uuid)
 ARG TEMP_HOME=/tmp/${UUID_NAME}
 
 # copy script
