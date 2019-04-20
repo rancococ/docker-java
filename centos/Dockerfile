@@ -10,8 +10,6 @@ ARG APP_HOME=/data/app
 ARG JRE_HOME=/data/jre
 ARG GOSU_URL=https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64
 ARG JRE_URL=https://github.com/rancococ/serverjre/releases/download/server-jre-8/server-jre-8u192-linux-x64.tar.gz
-ARG UUID_NAME=$(cat /proc/sys/kernel/random/uuid)
-ARG TEMP_HOME=/tmp/${UUID_NAME}
 
 # copy script
 COPY docker-entrypoint.sh /
@@ -38,11 +36,13 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     echo "Asia/Shanghai" > /etc/timezone && \ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh && echo 'admin' | passwd --stdin root && \
     mkdir -p ${APP_HOME} && groupadd -r myapp && useradd -r -m -g myapp -d ${APP_HOME} -s /bin/bash myapp && echo '123456' | passwd --stdin myapp && \
+    tempuuid=$(cat /proc/sys/kernel/random/uuid) && \
+    temphome=/tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
-    wget -c -O ${TEMP_HOME}/myjre.tar.gz --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \
-    tar -zxf ${TEMP_HOME}/myjre.tar.gz -C ${TEMP_HOME} && \
-    myjrename=$(tar -tf ${TEMP_HOME}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
-    mkdir -p ${JRE_HOME} && \cp -rf ${TEMP_HOME}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf ${TEMP_HOME} && \
+    wget -c -O ${temphome}/myjre.tar.gz --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \
+    tar -zxf ${temphome}/myjre.tar.gz -C ${temphome} && \
+    myjrename=$(tar -tf ${temphome}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
+    mkdir -p ${JRE_HOME} && \cp -rf ${temphome}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf ${temphome} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
     chown -R myapp:myapp /data && \
