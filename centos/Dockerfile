@@ -37,9 +37,9 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh && echo 'admin' | passwd --stdin root && \
     mkdir -p ${APP_HOME} && groupadd -r myapp && useradd -r -m -g myapp -d ${APP_HOME} -s /bin/bash myapp && echo '123456' | passwd --stdin myapp && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && \
-    temphome=/tmp/${tempuuid} && \
+    temphome=/tmp/${tempuuid} && mkdir -p ${temphome} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
-    wget -c -O ${temphome}/myjre.tar.gz --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \
+    wget -c -O ${temphome}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
     tar -zxf ${temphome}/myjre.tar.gz -C ${temphome} && \
     myjrename=$(tar -tf ${temphome}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
     mkdir -p ${JRE_HOME} && \cp -rf ${temphome}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf ${temphome} && \

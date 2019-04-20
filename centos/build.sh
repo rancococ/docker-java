@@ -125,13 +125,13 @@ fun_clean_images() {
 # main
 #
 # login registry
-fun_login_registry
+#fun_login_registry
 
 # build image
 fun_build_image
 
 # push image
-fun_push_image
+#fun_push_image
 
 # clean images
 fun_clean_images
