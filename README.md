@@ -10,5 +10,5 @@ docker-java
 5. jrehome: /data/jre
 6. user: root/admin; app/123456
 7. usage:
-docker run -it --rm --name java-1.8.192-alpine rancococ/java:1.8.192-alpine "bash"
-docker run -it --rm --name java-1.8.192-centos rancococ/java:1.8.192-centos "bash"
+docker run -it --rm --name java-1.8.192-alpine registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.192-alpine "bash"
+docker run -it --rm --name java-1.8.192-centos registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.192-centos "bash"
