@@ -36,13 +36,12 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     echo "Asia/Shanghai" > /etc/timezone && \ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh && echo 'admin' | passwd --stdin root && \
     mkdir -p ${APP_HOME} && groupadd -r app && useradd -r -m -g app -d ${APP_HOME} -s /bin/bash app && echo '123456' | passwd --stdin app && \
-    tempuuid=$(cat /proc/sys/kernel/random/uuid) && \
-    temphome=/tmp/${tempuuid} && mkdir -p ${temphome} && \
+    tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
-    wget -c -O ${temphome}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
-    tar -zxf ${temphome}/myjre.tar.gz -C ${temphome} && \
-    myjrename=$(tar -tf ${temphome}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
-    mkdir -p ${JRE_HOME} && \cp -rf ${temphome}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf ${temphome} && \
+    wget -c -O /tmp/${tempuuid}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
+    tar -zxf /tmp/${tempuuid}/myjre.tar.gz -C /tmp/${tempuuid} && \
+    myjrename=$(tar -tf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
+    mkdir -p ${JRE_HOME} && \cp -rf /tmp/${tempuuid}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf /tmp/${tempuuid} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
     chown -R app:app /data && \
