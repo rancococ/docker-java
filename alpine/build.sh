@@ -53,8 +53,8 @@ registry_password=""
 
 # images
 images=(
-java:1.8.181-alpine,registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8-alpine
-java:1.8.181-alpine,registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.181-alpine
+java:1.8.192-alpine,registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8-alpine
+java:1.8.192-alpine,registry.cn-hangzhou.aliyuncs.com/rancococ/java:1.8.192-alpine
 )
 
 # build image
@@ -75,11 +75,11 @@ docker build --rm \
              --add-host s3.amazonaws.com:52.216.130.69 \
              --add-host github-cloud.s3.amazonaws.com:52.216.64.104 \
              --add-host github-cloud.s3.amazonaws.com:52.216.166.91 \
-             --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.100.19 \
-             --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.230.163 \
-             --build-arg GOSU_URL=https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 \
-             --build-arg MYJRE_URL=http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/server-jre-8u181-linux-x64.tar.gz \
-             -t java:1.8.181-alpine \
+             --add-host github-production-release-asset-2e65be.s3.amazonaws.com:54.231.114.66 \
+             --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.165.147 \
+             --build-arg GOSU_URL=https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 \
+             --build-arg JRE_URL=https://github.com/rancococ/serverjre/releases/download/server-jre-8/server-jre-8u192-linux-x64.tar.gz \
+             -t java:1.8.192-alpine \
              -f Dockerfile .
 }
 
