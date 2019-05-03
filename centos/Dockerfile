@@ -39,9 +39,9 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
     wget -c -O /tmp/${tempuuid}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
-    tar -zxf /tmp/${tempuuid}/myjre.tar.gz -C /tmp/${tempuuid} && \
-    myjrename=$(tar -tf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
-    mkdir -p ${JRE_HOME} && \cp -rf /tmp/${tempuuid}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf /tmp/${tempuuid} && \
+    myjrename=$(tar -tzf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
+    mkdir -p ${JRE_HOME} && tar -xzf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 ${myjrename}/jre && \
+    \rm -rf /tmp/${tempuuid} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
     chown -R app:app /data && \

@@ -14,9 +14,9 @@ ARG JRE_URL=https://github.com/rancococ/serverjre/releases/download/server-jre-8
 # copy script
 COPY docker-entrypoint.sh /
 
-# install repositories and packages : curl bash openssh wget net-tools gettext zip unzip tzdata ncurses
+# install repositories and packages : curl bash openssh wget net-tools gettext zip unzip tar tzdata ncurses
 RUN echo -e "https://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/main\nhttps://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/community" > /etc/apk/repositories && \
-    apk update && apk add curl bash openssh wget net-tools gettext zip unzip tzdata ncurses && \
+    apk update && apk add curl bash openssh wget net-tools gettext zip unzip tar tzdata ncurses && \
     \rm -rf /var/cache/apk/* && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
     ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key  -N '' && \
@@ -32,9 +32,9 @@ RUN echo -e "https://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/main\nhttps://
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
     wget -c -O /tmp/${tempuuid}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
-    tar -zxf /tmp/${tempuuid}/myjre.tar.gz -C /tmp/${tempuuid} && \
-    myjrename=$(tar -tf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
-    mkdir -p ${JRE_HOME} && \cp -rf /tmp/${tempuuid}/${myjrename}/jre/. ${JRE_HOME} && \rm -rf /tmp/${tempuuid} && \
+    myjrename=$(tar -tzf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
+    mkdir -p ${JRE_HOME} && tar -xzf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 ${myjrename}/jre && \
+    \rm -rf /tmp/${tempuuid} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
     chown -R app:app /data && \
