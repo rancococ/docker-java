@@ -39,7 +39,7 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
     wget -c -O /tmp/${tempuuid}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
-    mkdir -p ${JRE_HOME} && tar -zxf /tmp/${tempuuid}/myjre.tar.gz --strip-components=1 */jre -C ${JRE_HOME} && \
+    mkdir -p ${JRE_HOME} && tar -zxf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 */jre/* && \
     \rm -rf /tmp/${tempuuid} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
