@@ -35,12 +35,13 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     sed -i '/^session\s\+required\s\+pam_loginuid.so/s/^/#/' /etc/pam.d/sshd && \
     echo "Asia/Shanghai" > /etc/timezone && \ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh && echo 'admin' | passwd --stdin root && \
-    mkdir -p ${APP_HOME} && groupadd -r app && useradd -r -m -g app -d ${APP_HOME} -s /bin/bash app && echo '123456' | passwd --stdin app && \
+    mkdir -p ${APP_HOME} && mkdir -p ${JRE_HOME} && \
+    groupadd -r app && useradd -r -m -g app -d ${APP_HOME} -s /bin/bash app && echo '123456' | passwd --stdin app && \
     tempuuid=$(cat /proc/sys/kernel/random/uuid) && mkdir -p /tmp/${tempuuid} && \
     wget -c -O /usr/local/bin/gosu --no-cookies --no-check-certificate "${GOSU_URL}" && chmod +x /usr/local/bin/gosu && \
     wget -c -O /tmp/${tempuuid}/myjre.tar.gz --no-cookies --no-check-certificate ${JRE_URL} && \
     myjrename=$(tar -tzf /tmp/${tempuuid}/myjre.tar.gz | awk -F "/" '{print $1}' | sed -n '1p') && \
-    mkdir -p ${JRE_HOME} && tar -xzf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 ${myjrename}/jre && \
+    tar -xzf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 ${myjrename}/jre && \
     \rm -rf /tmp/${tempuuid} && \
     sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
