@@ -37,7 +37,7 @@ RUN echo -e "https://mirrors.huaweicloud.com/alpine/${ALPINE_VER}/main\nhttps://
     tar -xzf /tmp/${tempuuid}/myjre.tar.gz -C ${JRE_HOME} --strip-components=2 ${myjrename}/jre && \
     \rm -rf /tmp/${tempuuid} && \
     sed -i 's@securerandom.source=file:/dev/random@securerandom.source=file:/dev/urandom@g' "${JRE_HOME}/lib/security/java.security" && \
-    sed -i 's/#crypto.policy=unlimited/crypto.policy=unlimited/g' "${JRE_HOME}/lib/security/java.security" && \
+    sed -i 's@#crypto.policy=unlimited@crypto.policy=unlimited@g' "${JRE_HOME}/lib/security/java.security" && \
     chmod -Rf u+x ${JRE_HOME}/bin/* && \
     chown -R app:app /data && \
     chown -R app:app /docker-entrypoint.sh && \
