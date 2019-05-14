@@ -26,7 +26,9 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     curl -s -o /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${CENTOS_VER} https://mirrors.aliyun.com/epel/RPM-GPG-KEY-EPEL-${CENTOS_VER} && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${CENTOS_VER} && \
+    sed -i 's@override_install_langs=en_US.utf8@#override_install_langs=en_US.utf8@g' "/etc/yum.conf" && \
     yum install -y passwd openssl openssh-server wget net-tools gettext zip unzip ncurses && \
+    yum reinstall -y glibc-common && \
     yum clean all && \rm -rf /var/lib/{cache,log} /var/log/lastlog && \
     ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N '' && \
     ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' && \
@@ -51,6 +53,7 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     chmod +x /docker-entrypoint.sh
 
 # set environment
+ENV LANG C.UTF-8
 ENV TZ "Asia/Shanghai"
 ENV TERM xterm
 ENV JAVA_HOME ${JRE_HOME}
