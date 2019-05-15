@@ -53,7 +53,7 @@ RUN \rm -rf /etc/yum.repos.d/*.repo && \
     chmod +x /docker-entrypoint.sh
 
 # set environment
-ENV LANG C.UTF-8
+ENV LANG zh_CN.UTF-8
 ENV TZ "Asia/Shanghai"
 ENV TERM xterm
 ENV JAVA_HOME ${JRE_HOME}
