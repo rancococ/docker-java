@@ -1,5 +1,5 @@
-# from centos:7
-FROM centos:7
+# from registry.cn-hangzhou.aliyuncs.com/rancococ/centos:7-utf8
+FROM registry.cn-hangzhou.aliyuncs.com/rancococ/centos:7-utf8
 
 # maintainer
 MAINTAINER "rancococ" <rancococ@qq.com>
